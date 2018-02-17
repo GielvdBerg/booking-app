@@ -3,26 +3,26 @@
 
 <div class="container">
 	<div class="row text-center">
-		<legend>Edit Package</legend>
+		<legend>Bewerk periode</legend>
 		  {!! Form::model($package, array('route' => array('package.update', $package->id))) !!}
 
         <!-- name -->
-        {!! Form::label('package_name', 'Name') !!}
+        {!! Form::label('package_name', 'Naam') !!}
         {!! Form::text('package_name') !!}
 
         <!-- price -->
-        {!! Form::label('package_price', 'Price') !!}
+        {!! Form::label('package_price', 'Prijs') !!}
         {!! Form::number('package_price') !!}
 
-        {!! Form::label('package_time', 'Time') !!}
+        {!! Form::label('package_time', 'Tijd') !!}
         {!! Form::number('package_time') !!}
 
 				<br>
-        {!! Form::label('package_description', 'Description') !!}
+        {!! Form::label('package_description', 'Beschrijving') !!}
         <br>
         {!! Form::textarea('package_description') !!}
 				<br>
-        {!! Form::button('Update Package', ['class' => 'btn btn-primary']) !!}
+        {!! Form::button('Bewerk', ['class' => 'btn btn-primary']) !!}
 
     {!! Form::close() !!}
 	</div>

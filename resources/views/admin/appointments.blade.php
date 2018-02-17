@@ -7,7 +7,7 @@
 <div class="col-lg-4">
 	<legend> Details </legend>
 	<div id="appointment-details">
-		<p>Click on an appointment to show details.</p>
+		<p>Klik op een afspraak om de details te bekijken.</p>
 	</div>
 </div>
 
