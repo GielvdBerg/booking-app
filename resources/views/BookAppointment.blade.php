@@ -2,8 +2,8 @@
 @section('content')
 <?php $link = Request::root(); ?>
 <div class="row jumbotron text-center">
-  <h1>Select a Day</h1>
-  <p>You chose <b> {{ $packageName }} </b></p>
+  <h1>Selecteer een dag</h1>
+  <p>Je hebt gekozen voor <b> {{ $packageName }} </b></p>
   <p id="currentDate">  </p>
 </div>
 
@@ -26,4 +26,3 @@
 <!-- Calendar Functionality -->
 <script src="{{ asset('/js/calendar.js') }}"></script>
 @endsection
-

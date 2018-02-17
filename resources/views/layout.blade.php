@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Appointment</title>
+  <title>Huur de blokhut</title>
 
   <!-- Linking CSS -->
 
@@ -14,7 +14,7 @@
   <link href="{{ asset('/css/paper.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/core.css') }}" rel="stylesheet">
   <link href="{{ asset('/css/normalize.css') }}" rel="stylesheet">
-  
+
   <!-- Datepicker css -->
   <link href="{{ asset('/css/calendar.css') }}" rel="stylesheet">
 
@@ -29,9 +29,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
   <!-- Moment -->
-  <script src="{{ asset('/js/moment.js') }}"></script>
+  <script src="{{ asset('/js/moment-with-locales.js') }}"></script>
 
-</head>  
+</head>
 <body>
   <div id="url" style="display: none">{{url('')}}</div>
 

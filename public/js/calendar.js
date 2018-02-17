@@ -1,7 +1,7 @@
 var url = document.getElementById("url").textContent;
 var jdays = [];
-cDate = moment();
-$('#currentDate').text("Current Date is " + cDate.format("MMMM Do, YYYY") );
+cDate = moment().locale('nl');
+$('#currentDate').text("Vandaag is het " + cDate.format("LL") );
 
 $(document).ready(function($){
 	createCalendar();
@@ -10,7 +10,7 @@ $(document).ready(function($){
 /**
  * Instantiates the calendar AFTER ajax call
  */
-function createCalendar() 
+function createCalendar()
 {
 	$.get(url+"/api/get-available-days", function(data) {
 		$.each(data, function(index, value) {
@@ -31,7 +31,7 @@ function createCalendar()
 /**
  * Highlights the days available for booking
  * @param  {datepicker date} date
- * @return {boolean, css}  
+ * @return {boolean, css}
  */
 function highlightDays(date)
 {
