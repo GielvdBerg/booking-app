@@ -8,13 +8,13 @@
   <link href="{{ asset('/css/paper.css') }}" rel="stylesheet">
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 
   <script src="{{ asset('/js/moment.js') }}"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
-</head>  
+</head>
 <body>
   <div id="url" style="display: none">{{url('')}}</div>
   <nav class="navbar navbar-default">
