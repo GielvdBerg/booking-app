@@ -128,8 +128,9 @@ class BookingController extends Controller
     // When this boolean is set to True, instead of deleting all appointment times for the package duration
     // It will instead remove all times up to the end of the day, and continue to the next day until the package
     // time is done.
-    $overlapDays = FALSE;
+    $overlapDays = TRUE;
     $info = Session::get('appointmentInfo');
+    $packageId = Session::get('packageID');
     $startTime = new DateTime($info['datetime']);
     $endTime = new DateTime($info['datetime']);
     date_add($endTime, date_interval_create_from_date_string($info['package_time'].' hours'));
@@ -141,18 +142,24 @@ class BookingController extends Controller
     Appointment::addAppointment($newCustomer);
 
     if ($overlapDays) {
-      // Remove hours up to the last hour of the day, then continue to the next day
-      // If necessary
-
-      // PSEUDO CODE
-      // We will get the last appointment of the day and see if it's smaller than the package time
-
-      // If the last appointment occurs beyond the package duration, we delete like normal
-
-      // If the last appointment occurs before the package duration
-      // We subtract the hours we remove from the package duration to get remaining time
-      // Then we go to the next day with appointment times and remove enough appointments
-      // To make clearance for the package duration.
+      // Custom overlapDays
+      switch ($packageId) {
+        case 1:
+        case 2:
+            // If package_id 1 or 2 delete times packages 1 & 2.
+            BookingDateTime::timeBetween($startTime, $endTime)->where('package_id', 1)->delete();
+            BookingDateTime::timeBetween($startTime, $endTime)->where('package_id', 2)->delete();
+            break;
+        case 3:
+            // If package_id 3 delete times package 3.
+            BookingDateTime::timeBetween($startTime, $endTime)->where('package_id', 3)->delete();
+            break;
+        case 4:
+            // If package_id 4 delete times packages 3 & 4.
+            BookingDateTime::timeBetween($startTime, $endTime)->where('package_id', 3)->delete();
+            BookingDateTime::timeBetween($startTime, $endTime)->where('package_id', 4)->delete();
+            break;
+    }
 
     } else {
       // Remove all dates conflicting with the appointment duration
