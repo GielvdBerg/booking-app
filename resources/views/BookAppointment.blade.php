@@ -24,5 +24,11 @@
 </div>
 
 <!-- Calendar Functionality -->
+<script type="text/javascript">
+$(document).ready(function($){
+	createCalendar({{ $pid }});
+});
+</script>
+
 <script src="{{ asset('/js/calendar.js') }}"></script>
 @endsection

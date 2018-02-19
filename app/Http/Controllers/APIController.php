@@ -13,8 +13,8 @@ class APIController extends Controller
 {
 
     // Get available days
-    function GetAvailableDays() {
-        return response()->json(BookingDateTime::all());
+    function GetAvailableDays($pid) {
+        return response()->json(BookingDateTime::where('package_id', $pid)->get());
     }
-  
+
 }

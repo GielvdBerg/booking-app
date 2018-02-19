@@ -14,7 +14,7 @@
 Route::group(['prefix' => 'api'], function()
 {
 	// Customer API Routes
-	Route::get('get-available-days', 'APIController@GetAvailableDays');
+	Route::get('get-available-days/{pid}', 'APIController@GetAvailableDays');
 
 	// Admin API Routes
 	Route::get('get-all-appointments', 'AdminAPIController@GetAllAppointments');

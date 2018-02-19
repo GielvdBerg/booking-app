@@ -3,16 +3,12 @@ var jdays = [];
 cDate = moment().locale('nl');
 $('#currentDate').text("Vandaag is het " + cDate.format("LL") );
 
-$(document).ready(function($){
-	createCalendar();
-});
-
 /**
  * Instantiates the calendar AFTER ajax call
  */
-function createCalendar()
+function createCalendar(pid)
 {
-	$.get(url+"/api/get-available-days", function(data) {
+	$.get(url+"/api/get-available-days/"+ pid, function(data) {
 		$.each(data, function(index, value) {
 			jdays.push(value.booking_datetime);
 		});

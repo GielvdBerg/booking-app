@@ -25,7 +25,7 @@ class BookingController extends Controller
   * User selects package to continue
   *
   **/
-  public function getIndex() 
+  public function getIndex()
   {
    $packages = Package::all();
    return view('showPackages', ['packages' => $packages]);
@@ -42,17 +42,18 @@ class BookingController extends Controller
     //Add package to the session data
     Session::put('packageID', $pid);
     $package = Package::find($pid);
-    
+
     // This groups all booking times by date so we can give a list of all days available.
     $data = [
     'packageName' => $package->package_name,
-    'days' => BookingDateTime::all()
+    'days' => BookingDateTime::where('package_id', $pid)->get(),
+    'pid' => $pid
     ];
-    
+
     return view('BookAppointment', $data);
   }
-  
-  /** 
+
+  /**
   * Function to get customer details after Date & Time pick
   *
   **/
@@ -62,7 +63,7 @@ class BookingController extends Controller
     // Put the passed date time ID into the session
     Session::put('aptID', $aptID);
     $package = Package::find(Session::get('packageID'));
-    
+
     // Get row of date id
     $dateRow = BookingDateTime::find($aptID);
     $dateFormat = new DateTime($dateRow->booking_datetime);
@@ -79,18 +80,18 @@ class BookingController extends Controller
 
     return view('customerInfo', $data);
   }
-  
+
   /**
   * Function to post customer info and present confirmation view
   * User Confirms appointment details to continue
   **/
-  public function anyConfirm() 
+  public function anyConfirm()
   {
 
     $input = Input::all();
     $package = Package::find(Session::get('packageID'));
 
-    $appointmentInfo = [ 
+    $appointmentInfo = [
       "package_id"   => Session::get('packageID'),
       "package_name" => $package->package_name,
       "package_time" => $package->package_time,
@@ -114,7 +115,7 @@ class BookingController extends Controller
     $packageName = Package::where('id', $input['pid'])->pluck('package_name');
     return View::make('confirm')->with('appointmentInfo', $appointmentInfo);
   }
-  
+
   /**
    * Function to create the appointment, scrub the database, and send out an email confirmation
    *
@@ -135,10 +136,10 @@ class BookingController extends Controller
     $newCustomer = Customer::addCustomer();
     $startTime = $startTime->format('Y-m-d H:i');
     $endTime = $endTime->format('Y-m-d H:i');
-    
+
     // Create the appointment with this new customer id
     Appointment::addAppointment($newCustomer);
-    
+
     if ($overlapDays) {
       // Remove hours up to the last hour of the day, then continue to the next day
       // If necessary
@@ -157,10 +158,10 @@ class BookingController extends Controller
       // Remove all dates conflicting with the appointment duration
       BookingDateTime::timeBetween($startTime, $endTime)->delete();
     }
-    
+
     return View::make('success');
   }
-  
+
   /**
   * Function to retrieve times available for a given date
   *
@@ -169,26 +170,24 @@ class BookingController extends Controller
   **/
   public function getTimes()
   {
-
-    // We get the data from AJAX for the day selected, then we get all available times for that day
-    $selectedDay = Input::get('selectedDay');
-    $availableTimes = DB::table('booking_datetimes')->get();
-
-    // We will now create an array of all booking datetimes that belong to the selected day
-    // WE WILL NOT filter this in the query because we want to maintain compatibility with every database (ideally)
-    
-    // PSEUDO CODE
     // Get package duration of the chosen package
     $package = Package::find(Session::get('packageID'));
     $packageTime = $package->package_time;
-    
-    // For each available time... 
+
+    // We get the data from AJAX for the day selected, then we get all available times for that day
+    $selectedDay = Input::get('selectedDay');
+    $availableTimes = DB::table('booking_datetimes')->where('package_id', $package->id)->get();
+
+    // We will now create an array of all booking datetimes that belong to the selected day
+    // WE WILL NOT filter this in the query because we want to maintain compatibility with every database (ideally)
+
+    // For each available time...
     foreach($availableTimes as $t => $value) {
 
       $startTime = new DateTime($value->booking_datetime);
       if ($startTime->format("Y-m-d") == $selectedDay) {
         $endTime = new DateTime($value->booking_datetime);
-        date_add($endTime, date_interval_create_from_date_string($packageTime.' hours')); 
+        date_add($endTime, date_interval_create_from_date_string($packageTime.' hours'));
 
         // Try to grab any appointments between the start time and end time
         $result = Appointment::timeBetween($startTime->format("Y-m-d H:i"), $endTime->format("Y-m-d H:i"));
@@ -196,13 +195,13 @@ class BookingController extends Controller
         // If no records are returned, the time is okay, if not, we must remove it from the array
         if($result->first()) {
           unset($availableTimes[$t]);
-        } 
+        }
 
       } else {
         unset($availableTimes[$t]);
       }
-    }   
-    
+    }
+
     return response()->json($availableTimes);
   }
 }

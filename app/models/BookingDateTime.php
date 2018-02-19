@@ -11,8 +11,8 @@ class BookingDateTime extends Model implements AuthenticatableContract {
 
   protected $table = 'booking_datetimes';
   protected $fillable = ['booking_datetime'];
-  protected $guarded = ['id', 'created_at', 'updated_at'];
-  
+  protected $guarded = ['id', 'created_at', 'updated_at', 'package_id'];
+
   public static function addAvailability($paramDate)
   {
   	BookingDateTime::create([
@@ -23,5 +23,5 @@ class BookingDateTime extends Model implements AuthenticatableContract {
   public function scopeTimeBetween($query, $begin, $end) {
     return $query->where('booking_datetime', '>=', $begin)->where('booking_datetime', '<', $end);
   }
- 
+
 }
